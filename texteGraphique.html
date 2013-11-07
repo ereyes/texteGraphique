@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Texte graphique</title>
+<style>
+body {margin:0px;}
+canvas { border:1px solid gray; width:100%; height:100%; }
+</style>
+<script src="processing-1.4.1.min.js"></script>
+<script src="dat.gui.min.js"></script>
+<script>
+
+	var pjs = Processing.getInstanceById('monCanvas');
+	var degres = 20;
+	var valeur;
+	
+function loadGUI(){
+		
+	var MonGUI = function() {
+		this.valeur = 50	
+		this.pause = function() {
+			pjs = Processing.getInstanceById('monCanvas');
+			pjs.noLoop();	
+		}
+		this.play = function() {
+			pjs = Processing.getInstanceById('monCanvas');
+			pjs.loop();	
+		}
+		this.reset = function() {
+			document.location.reload(true);	
+		}
+	};
+
+	var monGUI = new MonGUI();
+	var gui = new dat.GUI();
+	
+	var guiDegres = gui.add(monGUI, 'valeur', -10, 90);	
+	gui.add(monGUI, 'pause');
+	gui.add(monGUI, 'play');
+	gui.add(monGUI, 'reset');
+
+	guiDegres.onChange(function(value){
+		degres = monGUI.valeur;
+		pjs = Processing.getInstanceById('monCanvas');
+		pjs.draw(degres); 
+	});
+}
+
+</script>
+
+</head>
+
+<body onLoad="loadGUI();">
+<canvas id="monCanvas" data-processing-sources="texteTXT/texteTXT.pde"></canvas>
+</body>
+</html>
